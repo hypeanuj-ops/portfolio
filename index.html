@@ -1,0 +1,1277 @@
+# portfolio
+[index.html](https://github.com/user-attachments/files/26540629/index.html)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANUJ KC — Portfolio</title>
+
+  <!-- ============================================================
+       FONT IMPORTS
+       Display: Playfair Display (elegant serif for headings)
+       Body:    DM Sans (modern, readable sans-serif)
+       Change these in one place to restyle the whole site.
+  ============================================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================================
+       CSS VARIABLES — change colors, fonts, and spacing here
+       to restyle the entire site in one place.
+    ============================================================ */
+    :root {
+      --bg-primary:    #0e0d0b;   /* main background */
+      --bg-card:       #181714;   /* card / section background */
+      --bg-hover:      #211f1b;   /* card hover state */
+      --accent:        #c9a84c;   /* amber gold — main accent color */
+      --accent-dim:    #8a6f2e;   /* dimmed accent for borders */
+      --text-primary:  #f0ead8;   /* warm off-white */
+      --text-secondary:#9e9484;   /* muted text */
+      --text-muted:    #5c5648;   /* very muted — captions, dividers */
+      --border:        #2a2620;   /* subtle borders */
+
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+
+      --radius-sm:  6px;
+      --radius-md:  12px;
+      --radius-lg:  20px;
+
+      --transition: 0.25s ease;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+
+    /* ============================================================
+       UTILITY CLASSES
+    ============================================================ */
+    .accent { color: var(--accent); }
+    .muted  { color: var(--text-secondary); }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0e0d0b;
+    }
+    .btn-primary:hover { background: #d9bb6a; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ -->
+    /* ============================================================ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 64px;
+      background: rgba(14, 13, 11, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: color var(--transition);
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+
+    /* Hamburger — visible on mobile */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+
+    /* Mobile nav drawer */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 5%;
+      z-index: 99;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-size: 16px;
+      color: var(--text-secondary);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 5% 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative background grain/glow */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      max-width: 900px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-bio {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      right: 5%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .scroll-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--text-muted), transparent);
+    }
+
+    /* ============================================================
+       FEATURED PROJECT (big spotlight card)
+    ============================================================ */
+    .featured {
+      padding: 80px 5%;
+    }
+
+    .featured-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .featured-header h2 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .featured-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color var(--transition);
+    }
+    .featured-card:hover { border-color: var(--accent-dim); }
+
+    /* Project image placeholder — replace with a real <img> or screenshot */
+    .featured-image {
+      background: #1a1712;
+      min-height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative grid lines in the placeholder */
+    .featured-image::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.5;
+    }
+
+    .image-placeholder-text {
+      position: relative;
+      z-index: 1;
+      font-family: var(--font-display);
+      font-size: 14px;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 20px;
+    }
+
+    .featured-content {
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Tags — ADD new ones freely */
+    .tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .tag.accent-tag {
+      border-color: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .featured-content h3 {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 4vw, 40px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .featured-content p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .featured-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ============================================================
+       CATEGORY ROWS (Netflix-style horizontal scroll)
+    ============================================================ */
+    .category-section {
+      padding: 60px 0 20px;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .category-header h2 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .see-all {
+      font-size: 13px;
+      color: var(--text-muted);
+      transition: color var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .see-all:hover { color: var(--accent); }
+
+    /* The scrollable row */
+    .card-row {
+      display: flex;
+      gap: 16px;
+      padding: 8px 5% 24px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+    }
+    .card-row::-webkit-scrollbar { display: none; }
+
+    /* ── PROJECT CARDS ── */
+    .project-card {
+      flex: 0 0 280px;
+      scroll-snap-align: start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform var(--transition), border-color var(--transition);
+    }
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-dim);
+    }
+
+    .card-thumb {
+      height: 160px;
+      background: #1a1712;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Unique color accent per card — add more .color-N classes as you add projects */
+    .card-thumb.color-1 { background: #1a1514; }
+    .card-thumb.color-2 { background: #121a16; }
+    .card-thumb.color-3 { background: #141318; }
+    .card-thumb.color-4 { background: #181614; }
+
+    .card-thumb-icon {
+      font-size: 40px;
+      opacity: 0.3;
+      transition: opacity var(--transition);
+    }
+    .project-card:hover .card-thumb-icon { opacity: 0.55; }
+
+    .card-body {
+      padding: 16px;
+    }
+
+    .card-body h4 {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .card-body p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+
+    /* ── SKILL CARDS ── */
+    .skill-card {
+      flex: 0 0 180px;
+      scroll-snap-align: start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform var(--transition), border-color var(--transition);
+    }
+    .skill-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-dim);
+    }
+
+    .skill-icon {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .skill-card h4 {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .skill-level {
+      margin-top: auto;
+    }
+
+    /* Progress bar for skill level */
+    .skill-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .skill-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.8s ease;
+    }
+
+    .skill-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── EXPERIENCE CARDS ── */
+    .experience-card {
+      flex: 0 0 320px;
+      scroll-snap-align: start;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform var(--transition), border-color var(--transition);
+    }
+    .experience-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-dim);
+    }
+
+    .exp-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .exp-org {
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .exp-period {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .experience-card h4 {
+      font-family: var(--font-display);
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .experience-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       ABOUT SECTION (small, expandable later)
+    ============================================================ */
+    .about {
+      padding: 80px 5%;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-left h2 {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-top: 16px;
+    }
+
+    .about-left h2 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .about-right p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+    }
+
+    /* ============================================================
+       CONTACT / FOOTER
+    ============================================================ */
+    .contact {
+      margin: 40px 5% 80px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 60px;
+      text-align: center;
+    }
+
+    .contact h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 5vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 12px 0 16px;
+    }
+
+    .contact h2 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .contact p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      max-width: 440px;
+      margin: 0 auto 36px;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Social link chips */
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: border-color var(--transition), color var(--transition);
+    }
+    .social-link:hover {
+      border-color: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    footer {
+      padding: 24px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       RESPONSIVE — MOBILE
+    ============================================================ */
+    @media (max-width: 768px) {
+      nav { padding: 0 6%; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .hero { padding: 0 6% 64px; }
+
+      .featured-card {
+        grid-template-columns: 1fr;
+      }
+      .featured-image { min-height: 200px; }
+      .featured-content { padding: 28px 24px; }
+
+      .about {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .stats-row { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+      .contact { padding: 40px 24px; margin: 20px 4% 60px; }
+
+      .card-row { padding: 8px 6% 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .hero-actions { flex-direction: column; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
+    }
+
+    /* ============================================================
+       PAGE LOAD ANIMATION
+       Cards and sections fade up on load.
+    ============================================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
+    .hero h1      { animation: fadeUp 0.7s ease both; animation-delay: 0.2s; }
+    .hero-bio     { animation: fadeUp 0.7s ease both; animation-delay: 0.35s; }
+    .hero-actions { animation: fadeUp 0.7s ease both; animation-delay: 0.5s; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       Add/remove links in .nav-links and .mobile-nav to match
+       the sections you have.
+  ============================================================ -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">YN<span>.</span></a>
+
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact" class="btn btn-outline" style="padding:8px 18px;">Contact</a></li>
+    </ul>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile nav drawer -->
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="#projects" onclick="closeMobileNav()">Projects</a>
+    <a href="#skills"   onclick="closeMobileNav()">Skills</a>
+    <a href="#experience" onclick="closeMobileNav()">Experience</a>
+    <a href="#about"    onclick="closeMobileNav()">About</a>
+    <a href="#contact"  onclick="closeMobileNav()">Contact</a>
+  </div>
+
+  <!-- ============================================================
+       HERO SECTION
+       Edit your name, tagline, and bio below.
+  ============================================================ -->
+  <section class="hero" id="home">
+    <div class="hero-eyebrow">
+      <span class="section-label">Portfolio</span>
+    </div>
+
+    <!-- 
+      YOUR NAME HERE — use <em> around a word for italic gold accent.
+      Example: "Alex <em>Johnson</em>" 
+    -->
+    <h1>Anuj<br/><em>KC</em></h1>
+    <!-- One or two sentences about yourself -->
+    <p class="hero-bio">
+    Mechanical Engineering student at <strong>UMBC</strong>. 
+    Originally from Nepal, now based in Pasadena, MD. 
+    Focused on CAD design, mechanical systems, and engineering innovation.
+    </p>
+     
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View my work ↓</a>
+      <a href="#contact"  class="btn btn-outline">Get in touch</a>
+    </div>
+
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <!-- ============================================================
+       FEATURED PROJECT
+       Highlight your single best or most recent project here.
+       Replace the placeholder with an <img> tag when you have a screenshot.
+  ============================================================ -->
+  <section class="featured" id="projects">
+    <div class="featured-header">
+      <div>
+        <p class="section-label">Featured project</p>
+        <h2>My best work</h2>
+      </div>
+      <a href="#projects-row" class="see-all">All projects →</a>
+    </div>
+
+    <div class="featured-card">
+      <!-- Project image — replace with: <img src="screenshot.png" alt="Project Name" style="width:100%;height:100%;object-fit:cover;" /> -->
+      <div class="featured-image">
+        <div class="image-placeholder-text">
+          Add a screenshot here<br/>
+          <span style="color:var(--text-muted);font-size:12px;">Replace this div with an &lt;img&gt; tag</span>
+        </div>
+      </div>
+
+      <div class="featured-content">
+        <div class="project-tags">
+          <!-- EDIT THESE TAGS — add/remove as needed -->
+          <span class="tag accent-tag">React</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">PostgreSQL</span>
+        </div>
+
+        <!-- Edit project name and description -->
+        <h3>Project Name Goes Here</h3>
+
+        <p>
+          A short, compelling description of what this project does, what problem it solves,
+          and what you learned building it. Two to three sentences is the sweet spot.
+        </p>
+
+        <div class="featured-links">
+          <!-- Update href values with real URLs -->
+          <a href="#" class="btn btn-primary">Live demo ↗</a>
+          <a href="https://github.com/hypeanuj-ops" class="social-link" target="_blank">
+          GitHub
+        </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PROJECTS ROW (Netflix-style horizontal scroll)
+       To add a new project: copy one .project-card block and paste it.
+       Change the icon (emoji), title, description, and tags.
+  ============================================================ -->
+  <section class="category-section" id="projects-row">
+    <div class="category-header">
+      <div>
+        <p class="section-label">Browse all</p>
+        <h2>Projects</h2>
+      </div>
+      <a href="#" class="see-all">GitHub profile →</a>
+    </div>
+
+    <div class="card-row">
+
+      <!-- PROJECT CARD — copy this whole block to add a new project -->
+      <div class="project-card">
+        <div class="card-thumb color-1">
+          <span class="card-thumb-icon">🌐</span>
+        </div>
+        <div class="card-body">
+          <h4>Web Scraper Tool</h4>
+          <p>Collects and organizes data from public websites automatically.</p>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">BeautifulSoup</span>
+          </div>
+        </div>
+      </div>
+      <!-- END PROJECT CARD -->
+
+      <div class="project-card">
+        <div class="card-thumb color-2">
+          <span class="card-thumb-icon">📊</span>
+        </div>
+        <div class="card-body">
+          <h4>Data Dashboard</h4>
+          <p>Visualizes CSV datasets with interactive charts and filters.</p>
+          <div class="project-tags">
+            <span class="tag">JavaScript</span>
+            <span class="tag">D3.js</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="card-thumb color-3">
+          <span class="card-thumb-icon">🤖</span>
+        </div>
+        <div class="card-body">
+          <h4>Chatbot Prototype</h4>
+          <p>A simple rule-based chatbot for answering FAQ questions.</p>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">NLTK</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLACEHOLDER — remove this card and replace with a real project when ready -->
+      <div class="project-card" style="opacity:0.4; cursor:default;">
+        <div class="card-thumb color-4">
+          <span class="card-thumb-icon">＋</span>
+        </div>
+        <div class="card-body">
+          <h4>Coming Soon</h4>
+          <p>Your next project will appear here.</p>
+          <div class="project-tags">
+            <span class="tag">TBD</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SKILLS ROW
+       To add a skill: copy one .skill-card block and paste it.
+       Change the icon, name, level label, and bar width (0–100%).
+  ============================================================ -->
+  <section class="category-section" id="skills">
+    <div class="category-header">
+      <div>
+        <p class="section-label">What I know</p>
+        <h2>Skills</h2>
+      </div>
+    </div>
+
+    <div class="card-row">
+
+      <!-- SKILL CARD — copy this block to add a skill -->
+      <div class="skill-card">
+        <span class="skill-icon">🐍</span>
+        <h4>Python</h4>
+        <div class="skill-level">
+          <div class="skill-label">Intermediate</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:70%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-icon">🌐</span>
+        <h4>HTML / CSS</h4>
+        <div class="skill-level">
+          <div class="skill-label">Comfortable</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:60%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-icon">⚡</span>
+        <h4>JavaScript</h4>
+        <div class="skill-level">
+          <div class="skill-label">Learning</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:45%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-icon">🐙</span>
+        <h4>Git / GitHub</h4>
+        <div class="skill-level">
+          <div class="skill-label">Comfortable</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:60%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-icon">🗄️</span>
+        <h4>SQL</h4>
+        <div class="skill-level">
+          <div class="skill-label">Learning</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:40%"></div></div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <span class="skill-icon">🔧</span>
+        <h4>Linux / CLI</h4>
+        <div class="skill-level">
+          <div class="skill-label">Beginner</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:30%"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPERIENCE ROW
+       Add coursework, jobs, clubs, volunteer work here.
+       Copy one .experience-card block to add more.
+  ============================================================ -->
+  <section class="category-section" id="experience">
+    <div class="category-header">
+      <div>
+        <p class="section-label">Background</p>
+        <h2>Experience</h2>
+      </div>
+    </div>
+
+    <div class="card-row">
+
+      <!-- EXPERIENCE CARD — copy this block to add more -->
+      <div class="experience-card">
+        <div class="exp-top">
+          <span class="exp-org">Your University</span>
+          <span class="exp-period">2023 – present</span>
+        </div>
+        <h4>B.S. Computer Science</h4>
+        <p>
+          Relevant coursework: Data Structures, Algorithms, Web Development,
+          Intro to Machine Learning.
+        </p>
+      </div>
+
+      <div class="experience-card">
+        <div class="exp-top">
+          <span class="exp-org">Coding Club</span>
+          <span class="exp-period">Fall 2023</span>
+        </div>
+        <h4>Member & Hackathon Participant</h4>
+        <p>
+          Participated in 48-hour hackathon. Built a group project with two teammates.
+          Placed in the top 10 out of 30 teams.
+        </p>
+      </div>
+
+      <div class="experience-card">
+        <div class="exp-top">
+          <span class="exp-org">Personal Learning</span>
+          <span class="exp-period">2022 – present</span>
+        </div>
+        <h4>Self-Taught Web Developer</h4>
+        <p>
+          Completed online courses in HTML, CSS, and JavaScript through freeCodeCamp
+          and The Odin Project.
+        </p>
+      </div>
+
+      <!-- PLACEHOLDER experience slot -->
+      <div class="experience-card" style="opacity:0.4;">
+        <div class="exp-top">
+          <span class="exp-org">Future Role</span>
+          <span class="exp-period">—</span>
+        </div>
+        <h4>Your next experience</h4>
+        <p>Internships, research positions, and jobs will appear here as you progress.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT SECTION
+       Update the paragraphs below with your own story.
+       The stats row (numbers) can be updated as you grow.
+  ============================================================ -->
+  <section class="about" id="about">
+    <div class="about-left">
+      <p class="section-label">About me</p>
+      <h2>Curious by nature, <em>building</em> by habit.</h2>
+    </div>
+
+    <div class="about-right">
+      <p>
+     I am a Mechanical Engineering student at <strong>UMBC</strong>, driven by a fascination for how physical systems and smart design solve real-world challenges. Whether it's analyzing 3D assemblies in CAD or understanding the thermodynamics of an engine, I am committed to building solutions that are both efficient and reliable.
+    </p>
+
+    <p>
+     My journey began in <strong>Nepal</strong>, and moving to the U.S. during my junior year of high school taught me how to adapt quickly to new environments—a skill I bring to every engineering project. 
+    </p>
+
+    <p>
+    Outside of the classroom, you can find me working on my <strong>car</strong> or practicing guitar. I believe that the best engineers aren't just good at math; they bring a broad curiosity from their hobbies to solve narrow, complex technical problems.
+    </p>
+
+    <p>
+     This portfolio is a living document of my growth from a student to a professional engineer. Check back often to see my latest designs.
+    </p>
+      <!-- UPDATE these numbers as you complete more projects / courses -->
+      <div class="stats-row">
+        <div>
+          <div class="stat-number">3</div>
+          <div class="stat-label">Projects</div>
+        </div>
+        <div>
+          <div class="stat-number">6</div>
+          <div class="stat-label">Skills</div>
+        </div>
+        <div>
+          <div class="stat-number">1</div>
+          <div class="stat-label">Year learning</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT SECTION
+       Update the email and social links below.
+  ============================================================ -->
+  <section id="contact">
+    <div class="contact">
+      <p class="section-label">Let's connect</p>
+      <h2>Open to <em>opportunities</em></h2>
+      <p>
+        Whether it's a collaboration, internship, or just a hello —
+        my inbox is always open.
+      </p>
+
+      <div class="contact-links">
+        <!-- UPDATE these href values with your real links -->
+        <a href="mailto:hypeanuj@gmail.com" class="btn btn-primary">Email me ↗</a>
+        <a href="https://github.com/hypeanuj-ops" class="social-link" target="_blank">
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/anuj-kc-3821aa2b7/" class="social-link" target="_blank">
+          LinkedIn
+        </a>
+        <!-- Add more social links here as needed -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <p>© 2025 Your Name. All rights reserved.</p>
+    <p style="color:var(--text-muted)">Built with HTML, CSS & JavaScript</p>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+       Minimal and well-commented — easy to extend.
+  ============================================================ -->
+  <script>
+    // ── MOBILE NAV TOGGLE ─────────────────────────────────────
+    const hamburger   = document.getElementById('hamburger');
+    const mobileNav   = document.getElementById('mobile-nav');
+
+    hamburger.addEventListener('click', () => {
+      mobileNav.classList.toggle('open');
+    });
+
+    function closeMobileNav() {
+      mobileNav.classList.remove('open');
+    }
+
+    // Close mobile nav when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !mobileNav.contains(e.target)) {
+        closeMobileNav();
+      }
+    });
+
+    // ── NAVBAR SCROLL SHADOW ──────────────────────────────────
+    // Adds a subtle shadow to the navbar when the user scrolls down
+    const navbar = document.getElementById('navbar');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4)';
+      } else {
+        navbar.style.boxShadow = 'none';
+      }
+    });
+
+    // ── SCROLL-REVEAL ANIMATION ───────────────────────────────
+    // Elements with the class "reveal" fade in when scrolled into view.
+    // Add class="reveal" to any element you want to animate on scroll.
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+            revealObserver.unobserve(entry.target); // animate only once
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    // Apply reveal animation to section headers, cards, etc.
+    document.querySelectorAll(
+      '.category-header, .featured-card, .about-left, .about-right, .contact'
+    ).forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      revealObserver.observe(el);
+    });
+
+    // ── SKILL BAR ANIMATION ───────────────────────────────────
+    // Skill bars animate to their target width when scrolled into view.
+    const skillObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+              const width = bar.style.width;
+              bar.style.width = '0%';
+              // Small delay lets the CSS transition kick in
+              requestAnimationFrame(() => {
+                setTimeout(() => { bar.style.width = width; }, 100);
+              });
+            });
+            skillObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    document.querySelectorAll('#skills').forEach(el => skillObserver.observe(el));
+  </script>
+
+</body>
+</html>
